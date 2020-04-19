@@ -390,6 +390,117 @@ func (w *Client) Transfer(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12Fil
 	return wxRsp, nil
 }
 
+// 企业向微信用户发送现金红包（正式）
+//    注意：如已使用client.AddCertFilePath()添加过证书，参数certFilePath、keyFilePath、pkcs12FilePath全传空字符串 ""，否则，3证书Path均不可空
+//    注意：此方法未支持沙箱环境，默认正式环境，转账请慎重
+//    文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_4&index=3
+func (w *Client) SendCashRedPack(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12FilePath string) (wxRsp *SendCashRedPackResponse, err error) {
+	err = bm.CheckEmptyError("nonce_str", "mch_billno", "send_name", "re_openid", "total_amount", "total_num", "wishing", "client_ip", "act_name")
+	if err != nil {
+		return nil, err
+	}
+	bm.Set("wxappid", w.AppId)
+	bm.Set("mch_id", w.MchId)
+	var (
+		tlsConfig *tls.Config
+		url       = baseUrlCh + sendCashRedPack
+	)
+	if tlsConfig, err = w.addCertConfig(certFilePath, keyFilePath, pkcs12FilePath); err != nil {
+		return nil, err
+	}
+	bm.Set("sign", getReleaseSign(w.ApiKey, SignType_MD5, bm))
+
+	httpClient := gopay.NewHttpClient().SetTLSConfig(tlsConfig).Type(gopay.TypeXML)
+	if w.BaseURL != gopay.NULL {
+		w.mu.RLock()
+		url = w.BaseURL + sendCashRedPack
+		w.mu.RUnlock()
+	}
+	wxRsp = new(SendCashRedPackResponse)
+	res, errs := httpClient.Post(url).SendString(generateXml(bm)).EndStruct(wxRsp)
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("HTTP Request Error, StatusCode = %d", res.StatusCode)
+	}
+	return wxRsp, nil
+}
+
+// 	企业向微信用户发送现金红包记录（正式）
+//    注意：如已使用client.AddCertFilePath()添加过证书，参数certFilePath、keyFilePath、pkcs12FilePath全传空字符串 ""，否则，3证书Path均不可空
+//    注意：此方法未支持沙箱环境，默认正式环境，转账请慎重
+//    文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=13_6&index=5
+func (w *Client) GetCashRedPackInfo(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12FilePath string) (wxRsp *CashRedPackInfoResponse, err error) {
+	err = bm.CheckEmptyError("nonce_str", "mch_billno", "bill_type")
+	if err != nil {
+		return nil, err
+	}
+	bm.Set("appid", w.AppId)
+	bm.Set("mch_id", w.MchId)
+	var (
+		tlsConfig *tls.Config
+		url       = baseUrlCh + getCashRedPackInfo
+	)
+	if tlsConfig, err = w.addCertConfig(certFilePath, keyFilePath, pkcs12FilePath); err != nil {
+		return nil, err
+	}
+	bm.Set("sign", getReleaseSign(w.ApiKey, SignType_MD5, bm))
+
+	httpClient := gopay.NewHttpClient().SetTLSConfig(tlsConfig).Type(gopay.TypeXML)
+	if w.BaseURL != gopay.NULL {
+		w.mu.RLock()
+		url = w.BaseURL + getCashRedPackInfo
+		w.mu.RUnlock()
+	}
+	wxRsp = new(CashRedPackInfoResponse)
+	res, errs := httpClient.Post(url).SendString(generateXml(bm)).EndStruct(wxRsp)
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("HTTP Request Error, StatusCode = %d", res.StatusCode)
+	}
+	return wxRsp, nil
+}
+
+// 企业向微信用户发送小程序红包（正式）
+//    注意：如已使用client.AddCertFilePath()添加过证书，参数certFilePath、keyFilePath、pkcs12FilePath全传空字符串 ""，否则，3证书Path均不可空
+//    注意：此方法未支持沙箱环境，默认正式环境，转账请慎重
+//    文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/cash_coupon.php?chapter=18_2&index=3
+func (w *Client) SendXcxRedPack(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12FilePath string) (wxRsp *SendXcxRedPackResponse, err error) {
+	err = bm.CheckEmptyError("nonce_str", "mch_billno", "send_name", "re_openid", "total_amount", "total_num", "wishing", "remark", "act_name", "notify_way")
+	if err != nil {
+		return nil, err
+	}
+	bm.Set("wxappid", w.AppId)
+	bm.Set("mch_id", w.MchId)
+	var (
+		tlsConfig *tls.Config
+		url       = baseUrlCh + sendXcxRedPack
+	)
+	if tlsConfig, err = w.addCertConfig(certFilePath, keyFilePath, pkcs12FilePath); err != nil {
+		return nil, err
+	}
+	bm.Set("sign", getReleaseSign(w.ApiKey, SignType_MD5, bm))
+
+	httpClient := gopay.NewHttpClient().SetTLSConfig(tlsConfig).Type(gopay.TypeXML)
+	if w.BaseURL != gopay.NULL {
+		w.mu.RLock()
+		url = w.BaseURL + sendXcxRedPack
+		w.mu.RUnlock()
+	}
+	wxRsp = new(SendXcxRedPackResponse)
+	res, errs := httpClient.Post(url).SendString(generateXml(bm)).EndStruct(wxRsp)
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("HTTP Request Error, StatusCode = %d", res.StatusCode)
+	}
+	return wxRsp, nil
+}
+
 // 公众号纯签约（正式）
 //    文档地址：https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_1&index=1
 func (w *Client) EntrustPublic(bm gopay.BodyMap) (wxRsp *EntrustPublicResponse, err error) {

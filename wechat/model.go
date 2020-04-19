@@ -14,27 +14,30 @@ const (
 	baseUrlUs  = "https://apius.mch.weixin.qq.com/" // 其他
 
 	// 正式
-	microPay          = "pay/micropay"                          // 提交付款码支付
-	unifiedOrder      = "pay/unifiedorder"                      // 统一下单
-	orderQuery        = "pay/orderquery"                        // 查询订单
-	closeOrder        = "pay/closeorder"                        // 关闭订单
-	refund            = "secapi/pay/refund"                     // 申请退款
-	reverse           = "secapi/pay/reverse"                    // 撤销订单
-	refundQuery       = "pay/refundquery"                       // 查询退款
-	downloadBill      = "pay/downloadbill"                      // 下载对账单
-	downloadFundFlow  = "pay/downloadfundflow"                  // 下载资金账单
-	report            = "payitil/report"                        // 交易保障
-	batchQueryComment = "billcommentsp/batchquerycomment"       // 拉取订单评价数据
-	transfers         = "mmpaymkttransfers/promotion/transfers" // 企业向微信用户个人付款
-	authCodeToOpenid  = "tools/authcodetoopenid"                // 授权码查询openid
-	entrustPublic     = "papay/entrustweb"                      // 公众号纯签约
-	entrustApp        = "papay/preentrustweb"                   // APP纯签约
-	entrustH5         = "papay/h5entrustweb"                    // H5纯签约
-	entrustPaying     = "pay/contractorder"                     // 支付中签约
-	entrustQuery      = "papay/querycontract"                   // 查询签约关系
-	entrustApplyPay   = "pay/pappayapply"                       // 申请扣款
-	entrustDelete     = "papay/deletecontract"                  // 申请解约
-	entrustQueryOrder = "pay/paporderquery"                     // 查询扣款订单
+	microPay           = "pay/micropay"                          // 提交付款码支付
+	unifiedOrder       = "pay/unifiedorder"                      // 统一下单
+	orderQuery         = "pay/orderquery"                        // 查询订单
+	closeOrder         = "pay/closeorder"                        // 关闭订单
+	refund             = "secapi/pay/refund"                     // 申请退款
+	reverse            = "secapi/pay/reverse"                    // 撤销订单
+	refundQuery        = "pay/refundquery"                       // 查询退款
+	downloadBill       = "pay/downloadbill"                      // 下载对账单
+	downloadFundFlow   = "pay/downloadfundflow"                  // 下载资金账单
+	report             = "payitil/report"                        // 交易保障
+	batchQueryComment  = "billcommentsp/batchquerycomment"       // 拉取订单评价数据
+	transfers          = "mmpaymkttransfers/promotion/transfers" // 企业向微信用户个人付款
+	authCodeToOpenid   = "tools/authcodetoopenid"                // 授权码查询openid
+	entrustPublic      = "papay/entrustweb"                      // 公众号纯签约
+	entrustApp         = "papay/preentrustweb"                   // APP纯签约
+	entrustH5          = "papay/h5entrustweb"                    // H5纯签约
+	entrustPaying      = "pay/contractorder"                     // 支付中签约
+	entrustQuery       = "papay/querycontract"                   // 查询签约关系
+	entrustApplyPay    = "pay/pappayapply"                       // 申请扣款
+	entrustDelete      = "papay/deletecontract"                  // 申请解约
+	entrustQueryOrder  = "pay/paporderquery"                     // 查询扣款订单
+	sendCashRedPack    = "mmpaymkttransfers/sendredpack"         // 发放现金红包
+	getCashRedPackInfo = "mmpaymkttransfers/gethbinfo"           // 查询红包记录
+	sendXcxRedPack     = "mmpaymkttransfers/sendminiprogramhb"   // 发放小程序红包
 
 	// SanBox
 	sandboxGetSignKey   = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey"
@@ -511,4 +514,56 @@ type RefreshAppLoginAccessTokenRsp struct {
 	Scope        string `json:"scope,omitempty"`
 	Errcode      string `json:"errcode,omitempty"` // 错误码
 	Errmsg       string `json:"errmsg,omitempty"`  // 错误信息
+}
+
+type SendCashRedPackResponse struct {
+	ReturnCode  string `xml:"return_code,omitempty" json:"return_code,omitempty"`
+	ReturnMsg   string `xml:"return_msg,omitempty" json:"return_msg,omitempty"`
+	ResultCode  string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+	ErrCode     string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrCodeDes  string `xml:"err_code_des,omitempty" json:"err_code_des,omitempty"`
+	MchBillNo   string `xml:"mch_billno,omitempty" json:"mch_billno,omitempty"`
+	MchId       string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	WxAppid     string `xml:"wxappid,omitempty" json:"wxappid,omitempty"`
+	ReOpenid    string `xml:"re_openid,omitempty" json:"re_openid,omitempty"`
+	TotalAmount int    `xml:"total_amount,omitempty" json:"total_amount,omitempty"`
+	SendListid  string `xml:"send_listid,omitempty" json:"send_listid,omitempty"`
+}
+
+type CashRedPackInfoResponse struct {
+	ReturnCode   string `xml:"return_code,omitempty" json:"return_code,omitempty"`
+	ReturnMsg    string `xml:"return_msg,omitempty" json:"return_msg,omitempty"`
+	ResultCode   string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+	ErrCode      string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrCodeDes   string `xml:"err_code_des,omitempty" json:"err_code_des,omitempty"`
+	MchBillNo    string `xml:"mch_billno,omitempty" json:"mch_billno,omitempty"`
+	MchId        string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	DetailId     string `xml:"detail_id,omitempty" json:"detail_id,omitempty"`
+	Status       string `xml:"status,omitempty" json:"status,omitempty"`
+	SendType     string `xml:"send_type,omitempty" json:"send_type,omitempty"`
+	HbType       string `xml:"hb_type,omitempty" json:"hb_type,omitempty"`
+	TotalNum     int    `xml:"total_num,omitempty" json:"total_num,omitempty"`
+	TotalAmount  int    `xml:"total_amount,omitempty" json:"total_amount,omitempty"`
+	Reason       string `xml:"reason,omitempty" json:"reason,omitempty"`
+	SendTime     string `xml:"send_time,omitempty" json:"send_time,omitempty"`
+	RefundTime   string `xml:"refund_time,omitempty" json:"refund_time,omitempty"`
+	RefundAmount int    `xml:"refund_amount,omitempty" json:"refund_amount,omitempty"`
+	Wishing      string `xml:"wishing,omitempty" json:"wishing,omitempty"`
+	Remark       string `xml:"remark,omitempty" json:"remark,omitempty"`
+	ActName      string `xml:"act_name,omitempty" json:"act_name,omitempty"`
+}
+
+type SendXcxRedPackResponse struct {
+	ReturnCode  string `xml:"return_code,omitempty" json:"return_code,omitempty"`
+	ReturnMsg   string `xml:"return_msg,omitempty" json:"return_msg,omitempty"`
+	ResultCode  string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+	ErrCode     string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrCodeDes  string `xml:"err_code_des,omitempty" json:"err_code_des,omitempty"`
+	MchBillno   string `xml:"mch_billno,omitempty" json:"mch_billno,omitempty"`
+	MchId       string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	Wxappid     string `xml:"wxappid,omitempty" json:"wxappid,omitempty"`
+	ReOpenid    string `xml:"re_openid,omitempty" json:"re_openid,omitempty"`
+	TotalAmount int    `xml:"total_amount,omitempty" json:"total_amount,omitempty"`
+	SendListid  string `xml:"send_listid,omitempty" json:"send_listid,omitempty"`
+	Package     string `xml:"package,omitempty" json:"package,omitempty"`
 }

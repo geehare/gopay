@@ -329,6 +329,32 @@ func GetAppPaySign(appid, partnerid, noncestr, prepayid, signType, timestamp, ap
 	return
 }
 
+// 发送小程序红包，发送红包获取支付参数后，再次计算出微信领取红包需要用的paySign
+//    appId：APPID
+//    nonceStr：随即字符串
+//    packages：发送红包成功后拼接得到的值
+//    signType：签名类型
+//    timeStamp：时间
+//    ApiKey：API秘钥值
+//    微信内H5支付官方文档：https://pay.weixin.qq.com/wiki/doc/api/external/jsapi.php?chapter=7_7&index=6
+func GetLiteRedSign(appid, nonceStr, packages, timeStamp, apiKey string) (paySign string) {
+	var buffer strings.Builder
+	buffer.WriteString("appid=")
+	buffer.WriteString(appid)
+	buffer.WriteString("&nonceStr=")
+	buffer.WriteString(nonceStr)
+	buffer.WriteString("&package=")
+	buffer.WriteString(packages)
+	buffer.WriteString("&timeStamp=")
+	buffer.WriteString(timeStamp)
+	buffer.WriteString("&key=")
+	buffer.WriteString(apiKey)
+	h := md5.New()
+	h.Write([]byte(buffer.String()))
+	paySign = strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
+	return
+}
+
 // 解密开放数据到结构体
 //    encryptedData：包括敏感数据在内的完整用户信息的加密数据，小程序获取到
 //    iv：加密算法的初始向量，小程序获取到
