@@ -412,46 +412,44 @@ type RefundNotify struct {
 
 type Code2SessionRsp struct {
 	SessionKey string `json:"session_key,omitempty"` // 会话密钥
-	ExpiresIn  string `json:"expires_in,omitempty"`  // SessionKey超时时间（秒）
 	Openid     string `json:"openid,omitempty"`      // 用户唯一标识
 	Unionid    string `json:"unionid,omitempty"`     // 用户在开放平台的唯一标识符
-	Errcode    string `json:"errcode,omitempty"`     // 错误码
+	Errcode    int    `json:"errcode,omitempty"`     // 错误码
 	Errmsg     string `json:"errmsg,omitempty"`      // 错误信息
 }
 
 type PaidUnionId struct {
 	Unionid string `json:"unionid,omitempty"` // 用户在开放平台的唯一标识符
-	Errcode string `json:"errcode,omitempty"` // 错误码
+	Errcode int    `json:"errcode,omitempty"` // 错误码
 	Errmsg  string `json:"errmsg,omitempty"`  // 错误信息
 }
 
 type AccessToken struct {
 	AccessToken string `json:"access_token,omitempty"` // 获取到的凭证
-	ExpiresIn   string `json:"expires_in,omitempty"`   // SessionKey超时时间（秒）
-	Errcode     string `json:"errcode,omitempty"`      // 错误码
+	ExpiresIn   int    `json:"expires_in,omitempty"`   // SessionKey超时时间（秒）
+	Errcode     int    `json:"errcode,omitempty"`      // 错误码
 	Errmsg      string `json:"errmsg,omitempty"`       // 错误信息
 }
 
 type UserInfo struct {
-	Subscribe      string   `json:"subscribe,omitempty"`       // 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
-	Openid         string   `json:"openid,omitempty"`          // 用户唯一标识
-	Nickname       string   `json:"nickname,omitempty"`        // 用户的昵称
-	Sex            string   `json:"sex,omitempty"`             // 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-	Language       string   `json:"language,omitempty"`        // 用户的语言，简体中文为zh_CN
-	City           string   `json:"city,omitempty"`            // 用户所在城市
-	Province       string   `json:"province,omitempty"`        // 用户所在省份
-	Country        string   `json:"country,omitempty"`         // 用户所在国家
-	Headimgurl     string   `json:"headimgurl,omitempty"`      // 用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
-	SubscribeTime  string   `json:"subscribe_time,omitempty"`  // 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
-	Unionid        string   `json:"unionid,omitempty"`         // 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
-	Remark         string   `json:"remark,omitempty"`          // 公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
-	Groupid        string   `json:"groupid,omitempty"`         // 用户所在的分组ID（兼容旧的用户分组接口）
-	TagidList      []string `json:"tagid_list,omitempty"`      // 用户被打上的标签ID列表
-	SubscribeScene string   `json:"subscribe_scene,omitempty"` // 返回用户关注的渠道来源，ADD_SCENE_SEARCH 公众号搜索，ADD_SCENE_ACCOUNT_MIGRATION 公众号迁移，ADD_SCENE_PROFILE_CARD 名片分享，ADD_SCENE_QR_CODE 扫描二维码，ADD_SCENEPROFILE LINK 图文页内名称点击，ADD_SCENE_PROFILE_ITEM 图文页右上角菜单，ADD_SCENE_PAID 支付后关注，ADD_SCENE_OTHERS 其他
-	QrScene        string   `json:"qr_scene,omitempty"`        // 二维码扫码场景（开发者自定义）
-	QrSceneStr     string   `json:"qr_scene_str,omitempty"`    // 二维码扫码场景描述（开发者自定义）
-	Errcode        string   `json:"errcode,omitempty"`         // 错误码
-	Errmsg         string   `json:"errmsg,omitempty"`          // 错误信息
+	Subscribe      int    `json:"subscribe,omitempty"`       // 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
+	Openid         string `json:"openid,omitempty"`          // 用户唯一标识
+	Nickname       string `json:"nickname,omitempty"`        // 用户的昵称
+	Sex            int    `json:"sex,omitempty"`             // 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+	Language       string `json:"language,omitempty"`        // 用户的语言，简体中文为zh_CN
+	City           string `json:"city,omitempty"`            // 用户所在城市
+	Province       string `json:"province,omitempty"`        // 用户所在省份
+	Country        string `json:"country,omitempty"`         // 用户所在国家
+	Headimgurl     string `json:"headimgurl,omitempty"`      // 用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
+	SubscribeTime  int    `json:"subscribe_time,omitempty"`  // 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
+	Unionid        string `json:"unionid,omitempty"`         // 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
+	Remark         string `json:"remark,omitempty"`          // 公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
+	Groupid        int    `json:"groupid,omitempty"`         // 用户所在的分组ID（兼容旧的用户分组接口）
+	TagidList      []int  `json:"tagid_list,omitempty"`      // 用户被打上的标签ID列表
+	SubscribeScene string `json:"subscribe_scene,omitempty"` // 返回用户关注的渠道来源，ADD_SCENE_SEARCH 公众号搜索，ADD_SCENE_ACCOUNT_MIGRATION 公众号迁移，ADD_SCENE_PROFILE_CARD 名片分享，ADD_SCENE_QR_CODE 扫描二维码，ADD_SCENEPROFILE LINK 图文页内名称点击，ADD_SCENE_PROFILE_ITEM 图文页右上角菜单，ADD_SCENE_PAID 支付后关注，ADD_SCENE_OTHERS 其他
+	QrScene        int    `json:"qr_scene,omitempty"`        // 二维码扫码场景（开发者自定义）
+	Errcode        int    `json:"errcode,omitempty"`         // 错误码
+	Errmsg         string `json:"errmsg,omitempty"`          // 错误信息
 }
 
 // 微信小程序解密后 用户手机号结构体
@@ -466,7 +464,7 @@ type UserPhone struct {
 type AppletUserInfo struct {
 	OpenId    string         `json:"openId,omitempty"`
 	NickName  string         `json:"nickName,omitempty"`
-	Gender    string         `json:"gender,omitempty"`
+	Gender    int            `json:"gender,omitempty"`
 	City      string         `json:"city,omitempty"`
 	Province  string         `json:"province,omitempty"`
 	Country   string         `json:"country,omitempty"`
@@ -477,7 +475,7 @@ type AppletUserInfo struct {
 
 type watermarkInfo struct {
 	Appid     string `json:"appid,omitempty"`
-	Timestamp string `json:"timestamp,omitempty"`
+	Timestamp int    `json:"timestamp,omitempty"`
 }
 
 // 授权码查询openid 返回
@@ -496,23 +494,23 @@ type OpenIdByAuthCodeRsp struct {
 // App应用微信第三方登录，code换取access_token
 type AppLoginAccessToken struct {
 	AccessToken  string `json:"access_token,omitempty"`
-	ExpiresIn    string `json:"expires_in,omitempty"`
-	Openid       string `json:"openid,omitempty"`
+	ExpiresIn    int    `json:"expires_in,omitempty"`
 	RefreshToken string `json:"refresh_token,omitempty"`
+	Openid       string `json:"openid,omitempty"`
 	Scope        string `json:"scope,omitempty"`
 	Unionid      string `json:"unionid,omitempty"`
-	Errcode      string `json:"errcode,omitempty"` // 错误码
+	Errcode      int    `json:"errcode,omitempty"` // 错误码
 	Errmsg       string `json:"errmsg,omitempty"`  // 错误信息
 }
 
 // 刷新App应用微信第三方登录后，获取的 access_token
 type RefreshAppLoginAccessTokenRsp struct {
 	AccessToken  string `json:"access_token,omitempty"`
-	ExpiresIn    string `json:"expires_in,omitempty"`
-	Openid       string `json:"openid,omitempty"`
+	ExpiresIn    int    `json:"expires_in,omitempty"`
 	RefreshToken string `json:"refresh_token,omitempty"`
+	Openid       string `json:"openid,omitempty"`
 	Scope        string `json:"scope,omitempty"`
-	Errcode      string `json:"errcode,omitempty"` // 错误码
+	Errcode      int    `json:"errcode,omitempty"` // 错误码
 	Errmsg       string `json:"errmsg,omitempty"`  // 错误信息
 }
 
