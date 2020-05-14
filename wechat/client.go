@@ -390,6 +390,45 @@ func (w *Client) Transfer(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12Fil
 	return wxRsp, nil
 }
 
+// 查询企业向微信用户个人付款（正式）
+//    注意：如已使用client.AddCertFilePath()添加过证书，参数certFilePath、keyFilePath、pkcs12FilePath全传 nil，否则3证书Path均不可为nil（string类型）
+//    注意：此方法未支持沙箱环境，默认正式环境，转账请慎重
+//    文档地址：https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3
+func (w *Client) GetTransferInfo(bm gopay.BodyMap, certFilePath, keyFilePath, pkcs12FilePath interface{}) (wxRsp *TransfersInfoResponse, err error) {
+	if err = checkCertFilePath(certFilePath, keyFilePath, pkcs12FilePath); err != nil {
+		return nil, err
+	}
+	if err = bm.CheckEmptyError("nonce_str", "partner_trade_no"); err != nil {
+		return nil, err
+	}
+	bm.Set("appid", w.AppId)
+	bm.Set("mch_id", w.MchId)
+	var (
+		tlsConfig *tls.Config
+		url       = baseUrlCh + getTransferInfo
+	)
+	if tlsConfig, err = w.addCertConfig(certFilePath, keyFilePath, pkcs12FilePath); err != nil {
+		return nil, err
+	}
+	bm.Set("sign", getReleaseSign(w.ApiKey, SignType_MD5, bm))
+
+	httpClient := gopay.NewHttpClient().SetTLSConfig(tlsConfig).Type(gopay.TypeXML)
+	if w.BaseURL != gopay.NULL {
+		w.mu.RLock()
+		url = w.BaseURL + getTransferInfo
+		w.mu.RUnlock()
+	}
+	wxRsp = new(TransfersInfoResponse)
+	res, errs := httpClient.Post(url).SendString(generateXml(bm)).EndStruct(wxRsp)
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("HTTP Request Error, StatusCode = %d", res.StatusCode)
+	}
+	return wxRsp, nil
+}
+
 // 企业向微信用户发送现金红包（正式）
 //    注意：如已使用client.AddCertFilePath()添加过证书，参数certFilePath、keyFilePath、pkcs12FilePath全传空字符串 ""，否则，3证书Path均不可空
 //    注意：此方法未支持沙箱环境，默认正式环境，转账请慎重

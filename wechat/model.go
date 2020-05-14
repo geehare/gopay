@@ -38,6 +38,7 @@ const (
 	sendCashRedPack    = "mmpaymkttransfers/sendredpack"         // 发放现金红包
 	getCashRedPackInfo = "mmpaymkttransfers/gethbinfo"           // 查询红包记录
 	sendXcxRedPack     = "mmpaymkttransfers/sendminiprogramhb"   // 发放小程序红包
+	getTransferInfo    = "mmpaymkttransfers/gettransferinfo"     // 查询企业付款
 
 	// SanBox
 	sandboxGetSignKey   = "https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey"
@@ -318,6 +319,26 @@ type TransfersResponse struct {
 	PartnerTradeNo string `xml:"partner_trade_no,omitempty" json:"partner_trade_no,omitempty"`
 	PaymentNo      string `xml:"payment_no,omitempty" json:"payment_no,omitempty"`
 	PaymentTime    string `xml:"payment_time,omitempty" json:"payment_time,omitempty"`
+}
+
+type TransfersInfoResponse struct {
+	ReturnCode     string `xml:"return_code,omitempty" json:"return_code,omitempty"`
+	ReturnMsg      string `xml:"return_msg,omitempty" json:"return_msg,omitempty"`
+	ResultCode     string `xml:"result_code,omitempty" json:"result_code,omitempty"`
+	ErrCode        string `xml:"err_code,omitempty" json:"err_code,omitempty"`
+	ErrCodeDes     string `xml:"err_code_des,omitempty" json:"err_code_des,omitempty"`
+	PartnerTradeNo string `xml:"partner_trade_no,omitempty" json:"partner_trade_no,omitempty"`
+	Appid          string `xml:"appid,omitempty" json:"appid,omitempty"`
+	Mchid          string `xml:"mch_id,omitempty" json:"mch_id,omitempty"`
+	Detailid       string `xml:"detail_id,omitempty" json:"detail_id,omitempty"`
+	Status         string `xml:"status,omitempty" json:"status,omitempty"`
+	Reason         string `xml:"reason,omitempty" json:"reason,omitempty"`
+	Openid         string `xml:"openid,omitempty" json:"openid,omitempty"`
+	TransferName   string `xml:"transfer_name,omitempty" json:"transfer_name,omitempty"`
+	PaymentAmount  string `xml:"payment_amount,omitempty" json:"payment_amount,omitempty"`
+	TransferTime   string `xml:"transfer_time,omitempty" json:"transfer_time,omitempty"`
+	PaymentTime    string `xml:"payment_time,omitempty" json:"payment_time,omitempty"`
+	Desc           string `xml:"desc,omitempty" json:"desc,omitempty"`
 }
 
 type ReportResponse struct {
